@@ -8,12 +8,18 @@
 	<script type="text/javascript" src="http://dc-js.github.io/dc.js/js/d3.js"></script>
 	<script type="text/javascript" src="http://dc-js.github.io/dc.js/js/crossfilter.js"></script>
 	<script type="text/javascript" src="http://dc-js.github.io/dc.js/js/dc.js"></script>
+	  <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 
 </head>
 <body>
 
 <div class="container">
-
+	
+	<div class="page-header">
+  		<h1>Analytics Streaming App</h1>
+	</div>
 	<div class="row">
 		<div class="col-sm-6">
 			<h3> Pie Chart</h3>
@@ -29,14 +35,14 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-12">
-			<span id="feedbackspan1">
-				<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-thumbs-up"></span> Like</a>
-				<a href="#" class="btn btn-danger"><span class="glyphicon glyphicon-heart"></span> Love</a>
+			<span class="feedbackspan1">
+				<a href="#" class="btn btn-primary btn-counter multiple-count"><span class="glyphicon glyphicon-thumbs-up"></span> Like</a>
+				<a href="#" class="btn btn-danger btn-counter multiple-count"><span class="glyphicon glyphicon-heart"></span> Love</a>
 			
 			</span>
-			<span id="feedbackspan2">
-				<a href="#" class="btn btn-primary"><span class="glyphicon glyphicon-thumbs-up"></span> Like</a>
-				<a href="#" class="btn btn-danger"><span class="glyphicon glyphicon-heart"></span> Love</a>
+			<span class="feedbackspan2">
+				<a href="#" class="btn btn-primary btn-counter multiple-count"><span class="glyphicon glyphicon-thumbs-up"></span> Like</a>
+				<a href="#" class="btn btn-danger btn-counter multiple-count"><span class="glyphicon glyphicon-heart"></span> Love</a>
 			</span>
 		
 		

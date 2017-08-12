@@ -1,13 +1,15 @@
 var pieChart = dc.pieChart("#pieChart");
-d3.csv("morley.csv", function(error, experiments) {
+d3.csv("http://dc-js.github.io/dc.js/examples/morley.csv", function(error, experiments) {
   var ndx           = crossfilter(experiments),
       runDimension  = ndx.dimension(function(d) {return "run-"+d.Run;})
       speedSumGroup = runDimension.group().reduceSum(function(d) {return d.Speed * d.Run;});
   pieChart
+  .minWidth(200)
+  .minHeight(300)
+  .width(400)
     
-    .height(480)
     .slicesCap(4)
-    .innerRadius(100)
+    .innerRadius(0)
     .dimension(runDimension)
     .group(speedSumGroup)
     .legend(dc.legend())
@@ -22,7 +24,7 @@ d3.csv("morley.csv", function(error, experiments) {
 
 
 var barChart = dc.barChart("#barChart");
-d3.csv("morley.csv", function(error, experiments) {
+d3.csv("http://dc-js.github.io/dc.js/examples/morley.csv", function(error, experiments) {
   experiments.forEach(function(x) {
     x.Speed = +x.Speed;
   });
@@ -30,7 +32,9 @@ d3.csv("morley.csv", function(error, experiments) {
       runDimension        = ndx.dimension(function(d) {return +d.Run;}),
       speedSumGroup       = runDimension.group().reduceSum(function(d) {return d.Speed * d.Run / 1000;});
   barChart
-    .width(400)
+  .minWidth(200)
+  .minHeight(300)
+  .width(400)
    
     .x(d3.scale.linear().domain([6,20]))
     .brushOn(false)
@@ -47,7 +51,7 @@ d3.csv("morley.csv", function(error, experiments) {
 
 
 var analyticsChart = dc.barChart("#analyticsChart");
-d3.csv("morley.csv", function(error, experiments) {
+d3.csv("http://dc-js.github.io/dc.js/examples/morley.csv", function(error, experiments) {
     experiments.forEach(function(x) {
         x.Speed = +x.Speed;
     });
@@ -68,8 +72,9 @@ d3.csv("morley.csv", function(error, experiments) {
         };
     }
     analyticsChart
-        .width(768)
-        .height(480)
+    .minWidth(200)
+    .minHeight(300)
+    .width(400)
         .x(d3.scale.linear().domain([1,21]))
         .margins({left: 80, top: 20, right: 10, bottom: 20})
         .brushOn(false)
@@ -86,7 +91,7 @@ d3.csv("morley.csv", function(error, experiments) {
         return items.reverse();
     });
     for(var i = 2; i<6; ++i)
-        chart.stack(speedSumGroup, ''+i, sel_stack(i));
+    	analyticsChart.stack(speedSumGroup, ''+i, sel_stack(i));
     analyticsChart.render();
 });
 
