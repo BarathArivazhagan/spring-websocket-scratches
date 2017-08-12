@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WebsocketChartAnalyticsApplication {
+public class AnalyticsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WebsocketChartAnalyticsApplication.class, args);
+		SpringApplication.run(AnalyticsApplication.class, args);
 	}
 }
