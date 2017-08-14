@@ -15,7 +15,9 @@ In the controller class,
 
 ```
 @Autowired
-private 
+private SimpMessagingTemplate template;
+
+template.convertAndSend(destination,payload);
 
 ```
 
