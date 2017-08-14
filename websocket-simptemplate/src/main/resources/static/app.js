@@ -1,11 +1,11 @@
 var stompClient = null;
 
 
-function getInventories() {
-	console.log("get inventories is called");
+function sendMessage() {
+	console.log("send message is called");
 	if( stompClient !=null){
 		console.log("stompClient is not null");
-		stompClient.send("/app/get", {}, {});
+		stompClient.send("/hello", {}, JSON.stringify({ "message" : $("#message").val() }));
 	}
 }
 
@@ -16,7 +16,7 @@ function connect() {
     stompClient.connect({}, function (frame) {
         
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/analytics/data', function (data) {
+        stompClient.subscribe('/queue/data', function (data) {
         	console.log("subscription is called");
             handleResponse(data);
         });
@@ -25,7 +25,11 @@ function connect() {
 
 function handleResponse(data){
 	
-	console.log("inventories "+data.body);
+	console.log("response is obtained "+data.body);
+	var source   = $("#message-response-template").html();
+	var template = Handlebars.compile(source);
+	var html    = template(data.body);
+	$("#renderHere").append(html);
 	
 }
 
@@ -42,5 +46,5 @@ function disconnect() {
 $(function () {
     connect();   
 
-   //setInterval(getInventories, 5000);
+  
 });

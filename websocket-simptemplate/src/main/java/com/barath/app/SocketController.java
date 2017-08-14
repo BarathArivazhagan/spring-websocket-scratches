@@ -31,6 +31,7 @@ public class SocketController {
 		if(!StringUtils.isEmpty(message)){
 			if(logger.isInfoEnabled()){
 				logger.info("Message received {}",message);
+				logger.info("Destination to be sent {}",destination);
 			}
 			this.template.convertAndSend(destination,new HelloMessage(message));
 		}

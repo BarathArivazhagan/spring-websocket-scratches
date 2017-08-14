@@ -3,10 +3,11 @@
 <head>
     <title>Hello WebSocket</title>
     <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/main.css" rel="stylesheet">
+    
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/webjars/handlebars/4.0.5/handlebars.min.js"></script>
     <script src="/app.js"></script>
 </head>
 <body>
@@ -15,12 +16,43 @@
     Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
     
+    <div class="page-header">
+  		<h1>Welcome to Web socket Example</h1>
+	</div>
     <div class="row">
-        <div class="col-md-12">
-           <button onclick="getInventories()">Send Request</button>
+        <div class="col-sm-12 col-md-12">
+        	Enter the message<input id="message" class="message"></input>
+           <button onclick="sendMessage()">Send Message</button>
         </div>
+        
+    </div>
+     <div class="row">
+        <div class="col-sm-12 col-md-12">
+     		<div id="renderHere"></div>
+        </div>
+        
     </div>
    
 </div>
+<script id="message-response-template" type="text/x-handlebars-template">
+
+   <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Messages Sent</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+		{{#each this}}
+    		<tr>
+       			 <td>{{{this.message}}</td>       
+      		</tr>
+        {{/each}}
+     
+    </tbody>
+  </table>
+   		
+</script>
 </body>
 </html>
