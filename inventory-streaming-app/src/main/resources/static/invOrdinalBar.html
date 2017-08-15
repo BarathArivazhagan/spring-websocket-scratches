@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>dc.js - Ordinal Bar Chart Example</title>
+    <meta charset="UTF-8">
+      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://dc-js.github.io/dc.js/css/dc.css"/>
+  <script type="text/javascript" src="http://dc-js.github.io/dc.js/js/d3.js"></script>
+  <script type="text/javascript" src="http://dc-js.github.io/dc.js/js/crossfilter.js"></script>
+  <script type="text/javascript" src="http://dc-js.github.io/dc.js/js/dc.js"></script>
+   
+</head>
+<body>
+
+<div class="container">
+
+<div id="test"></div>
+
+<script type="text/javascript">
+  var chart = dc.barChart('#test');
+  function drawChart() {
+      
+    var data=[{"locationName":"us","productName":"choco","quantity":67,"threshold":10},{"locationName":"SouthZone","productName":"COKE","quantity":23,"threshold":20},{"locationName":"SouthZone","productName":"DAIRYMILK","quantity":67,"threshold":20},{"locationName":"india","productName":"fan","quantity":67,"threshold":30},{"locationName":"SouthZone","productName":"MAZZA","quantity":67,"threshold":20},{"locationName":"SouthZone","productName":"MilkBikies","quantity":67,"threshold":50},{"locationName":"SouthZone","productName":"OREO","quantity":67,"threshold":20},{"locationName":"SouthZone","productName":"Snickers","quantity":67,"threshold":20},{"locationName":"SouthZone","productName":"SPRITE","quantity":67,"threshold":30}];
+
+      var ndx            = crossfilter(data),
+          locationDimension = ndx.dimension(function(d) {return d.locationName;}),
+          sumGroup       = locationDimension.group().reduceSum(function(d) {return d.threshold;});
+      chart
+          .width(768)
+          .height(380)
+          .x(d3.scale.ordinal())
+          .xUnits(dc.units.ordinal)
+          .brushOn(false)
+          .xAxisLabel('Location')
+          .yAxisLabel('Threshold')
+          .dimension(locationDimension)
+          .barPadding(0.1)
+          .outerPadding(0.05)
+          .group(sumGroup);
+      chart.render();
+  }
+
+
+drawChart();
+</script>
+
+</div>
+</body>
+</html>

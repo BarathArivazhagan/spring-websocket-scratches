@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>dc.js - Ordinal Bar Chart Example</title>
+    <meta charset="UTF-8">
+      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://dc-js.github.io/dc.js/css/dc.css"/>
+  <script type="text/javascript" src="http://dc-js.github.io/dc.js/js/d3.js"></script>
+  <script type="text/javascript" src="http://dc-js.github.io/dc.js/js/crossfilter.js"></script>
+  <script type="text/javascript" src="http://dc-js.github.io/dc.js/js/dc.js"></script>
+   
+</head>
+<body>
+
+<div class="container">
+
+<div id="test"></div>
+
+<script type="text/javascript">
+  var chart = dc.barChart('#test');
+  function drawChart() {
+      
+    var data=[{"locationName":"us","productName":"choco","quantity":67,"threshold":10},{"locationName":"SouthZone","productName":"COKE","quantity":23,"threshold":20},{"locationName":"SouthZone","productName":"DAIRYMILK","quantity":67,"threshold":20},{"locationName":"india","productName":"fan","quantity":67,"threshold":30},{"locationName":"SouthZone","productName":"MAZZA","quantity":67,"threshold":20},{"locationName":"SouthZone","productName":"MilkBikies","quantity":67,"threshold":50},{"locationName":"SouthZone","productName":"OREO","quantity":67,"threshold":20},{"locationName":"SouthZone","productName":"Snickers","quantity":100,"threshold":20},{"locationName":"SouthZone","productName":"SPRITE","quantity":67,"threshold":30}];
+
+      var ndx            = crossfilter(data),
+         productDimension = ndx.dimension(function(d) {return d.productName;}),
+         locationDimension = ndx.dimension(function(d) {return d.locationName;}),
+          productSumGroup       = productDimension.group().reduceSum(function(d) {return d.quantity;});
+         locationSumGroup= locationDimension.group().reduceSum(function(d) {return d.quantity;});
+
+          function sel_stack(i) {
+
+            //console.log("value of "+i);
+              return function(d) {
+                var products=locationDimension.filter(d.key).top(Infinity);               
+                for( var j=0; j< products.length; j++ ){
+                  if(products[j]["productName"] == productSumGroup.top(Infinity)[i]["key"]){
+                      return products[j]["quantity"];
+                  }
+                }
+                  return 0;
+              };
+          }
+         
+          chart
+              .width(500)
+              .height(400)
+             .x(d3.scale.ordinal())
+          .xUnits(dc.units.ordinal)
+          .brushOn(false)
+          .xAxisLabel('Location')
+          .yAxisLabel('Quantity')
+         
+              .title(function(d) {
+                  
+                   var products=locationDimension.filter(d.key).top(Infinity);  
+
+                   for( var j=0; j< products.length; j++ ){
+                       if(products[j]["productName"] == this.layer){
+                         return  products[j]["productName"] + " = "+products[j]["quantity"];
+                        }
+                    }
+                  return null;
+              })
+              .dimension(locationDimension)
+              .group(locationSumGroup,productSumGroup.top(Infinity)[0]["key"], sel_stack(0))
+              .renderLabel(true);
+          chart.legend(dc.legend());
+          // dc.override(chart, 'legendables', function() {
+          //     var items = chart._legendables();
+          //     return items.reverse();
+          // });
+          for(var i = 1; i<productSumGroup.top(Infinity).length; i++)
+              chart.stack(locationSumGroup, productSumGroup.top(Infinity)[i]["key"], sel_stack(i));
+
+             chart.render();
+  }
+
+
+drawChart();
+</script>
+
+</div>
+</body>
+</html>

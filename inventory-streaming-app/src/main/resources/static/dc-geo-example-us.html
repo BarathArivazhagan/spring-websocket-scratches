@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Geo Chart Example</title>
+     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://dc-js.github.io/dc.js/css/dc.css"/>
+	<script type="text/javascript" src="http://dc-js.github.io/dc.js/js/d3.js"></script>
+	<script type="text/javascript" src="http://dc-js.github.io/dc.js/js/crossfilter.js"></script>
+	<script type="text/javascript" src="http://dc-js.github.io/dc.js/js/dc.js"></script>
+    
+   
+</head>
+<body>
+
+<div id="main-content" class="container">
+    
+    <div class="page-header">
+  		<h1>Welcome to Streaming App</h1>
+	</div>
+    <div class="row">
+		<h3> Geo Chart </h3>
+			<div id="usChart"></div>
+	
+	
+	</div>
+   
+</div>
+
+ <script >
+ var usChart = dc.geoChoroplethChart("#us-chart");
+function drawData(data) {
+    console.log("drawing the chart");
+    experiments=[{"locationName":"us","productName":"choco","quantity":67,"threshold":10},{"locationName":"SouthZone","productName":"COKE","quantity":23,"threshold":20},{"locationName":"SouthZone","productName":"DAIRYMILK","quantity":67,"threshold":20},{"locationName":"india","productName":"fan","quantity":67,"threshold":30},{"locationName":"SouthZone","productName":"MAZZA","quantity":67,"threshold":20},{"locationName":"SouthZone","productName":"MilkBikies","quantity":67,"threshold":50},{"locationName":"SouthZone","productName":"OREO","quantity":67,"threshold":20},{"locationName":"SouthZone","productName":"Snickers","quantity":67,"threshold":20},{"locationName":"SouthZone","productName":"SPRITE","quantity":67,"threshold":30}]
+ d3.json("../geo/us-states.json", function (statesJson) {
+            usChart.width(990)
+                    .height(500)
+                    .dimension(states)
+                    .group(stateRaisedSum)
+                    .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
+                    .colorDomain([0, 200])
+                    .colorCalculator(function (d) { return d ? usChart.colors()(d) : '#ccc'; })
+                    .overlayGeoJson(statesJson.features, "state", function (d) {
+                        return d.properties.name;
+                    })
+                .valueAccessor(function(kv) {
+                    console.log(kv);
+                    return kv.value;
+                })
+                    .title(function (d) {
+                        return "State: " + d.key + "\nTotal Amount Raised: " + numberFormat(d.value ? d.value : 0) + "M";
+                    });
+
+    analyticsChart.render();
+}
+
+
+drawData();
+
+
+ </script>
+</body>
+</html>
