@@ -8,8 +8,14 @@
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script src="/webjars/handlebars/4.0.5/handlebars.min.js"></script>
-    <script src="/app.js"></script>
+    <script src="/welcome.js"></script>
 </head>
+<style>
+
+   .adjust-top{
+        padding-top: 20px;
+   }
+</style>
 <body>
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
     enabled. Please enable
@@ -21,31 +27,14 @@
     </div>
     <div class="row">
         <div class="col-sm-12 col-md-12">
-            Enter the message<input id="message" class="message"></input>
-            <button onclick="sendMessage()">Send Message</button>
+            Enter user  <input id="message" class="message"></input>
+            <button onclick="sendUser()">Enter Chat</button>
         </div>
-
     </div>
-    <div class="row" style="padding-top: 30px;">
-        <div class="col-sm-12 col-md-12">
-            <h4>Messages Sent</h4>
-            <div id="renderHere"></div>
-        </div>
-
+    <div class="row adjust-top">
+        <h5 class="col-sm-12 col-md-12" id="welcome"></h5>
     </div>
 
 </div>
-<script id="message-response-template" type="text/x-handlebars-template">
-
-    <table class="table table-bordered">
-        <tbody>
-        {{#each this}}
-        <tr>
-            <td>{{this.content}}</td>
-        </tr>
-        {{/each}}
-        </tbody>
-    </table>
-</script>
 </body>
 </html>

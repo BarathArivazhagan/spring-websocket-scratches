@@ -31,16 +31,16 @@ public class SocketController {
 		this.messages = new ArrayList<>();
 	}
 			
-	@MessageMapping("/hello")
-	public void handleMessage(@RequestParam String content){
+	@MessageMapping("/user")
+	public void welcomeUser(@RequestParam String userName){
 		
-		if(!StringUtils.isEmpty(content)){
+		if(!StringUtils.isEmpty(userName)){
 			if(logger.isInfoEnabled()){
-				logger.info("content received {}",content);
+				logger.info("content received {}",userName);
 				logger.info("Destination to be sent {}",destination);
 			}
 
-			this.template.convertAndSend(destination,content);
+			this.template.convertAndSend(destination,userName);
 		}
 		
 	}
