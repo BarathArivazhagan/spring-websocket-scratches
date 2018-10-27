@@ -5,7 +5,7 @@ function sendMessage() {
 	console.log("send message is called");
 	if( stompClient !=null){
 		console.log("stompClient is not null");
-		stompClient.send("/hello", {}, JSON.stringify({ "message" : $("#message").val() }));
+		stompClient.send("/app/message", {}, JSON.stringify({ "content" : $("#message").val() }));
 	}
 }
 
@@ -16,7 +16,7 @@ function connect() {
     stompClient.connect({}, function (frame) {
         
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/queue/data', function (data) {
+        stompClient.subscribe('/topic/messages', function (data) {
         	console.log("subscription is called");
             handleResponse(data);
         });
@@ -28,8 +28,9 @@ function handleResponse(data){
 	console.log("response is obtained "+data.body);
 	var source   = $("#message-response-template").html();
 	var template = Handlebars.compile(source);
-	var html    = template(data.body);
-	$("#renderHere").append(html);
+	var data = typeof data.body === 'string' ? JSON.parse(data.body) : data.body;
+	var html    = template(data);
+	$("#renderHere").html(html);
 	
 }
 

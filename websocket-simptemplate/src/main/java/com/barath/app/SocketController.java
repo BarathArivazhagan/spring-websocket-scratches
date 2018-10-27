@@ -1,11 +1,15 @@
 package com.barath.app;
 
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -16,26 +20,44 @@ public class SocketController {
 	
 	private static final Logger logger=LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 	
-    private SimpMessagingTemplate template;
+    private final SimpMessagingTemplate template;
+    private final List<Message> messages;
     
     @Value("${websocket.destination.name}")
     private String destination;
 			
 	public SocketController(SimpMessagingTemplate template) {
 		this.template=template;
+		this.messages = new ArrayList<>();
 	}
 			
 	@MessageMapping("/hello")
-	public void getMessage(@RequestParam String message){
+	public void handleMessage(@RequestParam String content){
 		
-		if(!StringUtils.isEmpty(message)){
+		if(!StringUtils.isEmpty(content)){
 			if(logger.isInfoEnabled()){
-				logger.info("Message received {}",message);
+				logger.info("content received {}",content);
 				logger.info("Destination to be sent {}",destination);
 			}
-			this.template.convertAndSend(destination,new HelloMessage(message));
+
+			this.template.convertAndSend(destination,content);
 		}
 		
+	}
+
+
+
+	@MessageMapping("/message")
+	@SendTo("/topic/messages")
+	public List<Message> handleMessage(Message message) {
+
+		if (!Objects.isNull(message)) {
+			if (logger.isInfoEnabled()) {
+				logger.info("message received {}", Objects.toString(message));
+			}
+			this.messages.add(message);
+		}
+		return this.messages;
 	}
 
 }
