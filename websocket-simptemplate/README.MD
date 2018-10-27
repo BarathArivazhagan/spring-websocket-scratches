@@ -5,8 +5,7 @@
 
 <p>
 
-This application uses SimpTemplate to send the messages to the websocket instead of 
-@SendTo annotation.
+This application uses SimpTemplate to send the messages to the websocket.
 
 
 To do this : 
@@ -24,4 +23,6 @@ template.convertAndSend(destination,payload);
 
 
 </p>
+
+
 

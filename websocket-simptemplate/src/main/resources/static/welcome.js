@@ -18,7 +18,7 @@ function connect() {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/welcome/user', function (data) {
         	console.log("subscription is called");
-            $("#welcome").html("welcome"+data.body);
+            $("#welcome").html("WELCOME  "+data.body);
         });
     });
 }
