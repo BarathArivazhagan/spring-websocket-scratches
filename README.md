@@ -1,2 +1,5 @@
 # spring-websocket-scratches
-This Project contains samples including spring websocket library
+This repository contains samples including spring websocket.
+
+
+
