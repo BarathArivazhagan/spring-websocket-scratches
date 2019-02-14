@@ -45,9 +45,9 @@ $ ./mvnw spring-boot:run
 
  ![after message](../images/after_message.png)
 
- * Access ```http://localhost:9092/welcome.html``` to test @RequestParam mapping.
+ * Access ```http://localhost:9092/welcome.html``` to test text message mapping.
 
- 
+
 
 
 

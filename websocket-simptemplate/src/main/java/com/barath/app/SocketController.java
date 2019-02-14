@@ -32,8 +32,8 @@ public class SocketController {
 	}
 			
 	@MessageMapping("/user")
-	public void welcomeUser(@RequestParam String userName){
-		
+	public void welcomeUser( String userName){
+
 		if(!StringUtils.isEmpty(userName)){
 			if(logger.isInfoEnabled()){
 				logger.info("content received {}",userName);
